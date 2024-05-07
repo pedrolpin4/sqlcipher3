@@ -12,7 +12,7 @@ from setuptools import Extension
 
 # If you need to change anything, it should be enough to change setup.cfg.
 
-PACKAGE_NAME = 'sqlcipher3'
+PACKAGE_NAME = 'pysqlcipher3'
 VERSION = '0.5.2'
 
 # define sqlite sources
@@ -34,6 +34,7 @@ if sys.platform == "darwin":
 def quote_argument(arg):
     q = '\\"' if sys.platform == 'win32' and sys.version_info < (3, 8) else '"'
     return q + arg + q
+
 
 define_macros = [('MODULE_NAME', quote_argument(PACKAGE_NAME + '.dbapi2'))]
 
@@ -130,7 +131,8 @@ class AmalgationLibSqliteBuilder(build_ext):
             ext.define_macros.append(("inline", "__inline"))
 
             # Configure the linker
-            openssl_libname = os.environ.get('OPENSSL_LIBNAME') or 'libeay32.lib'
+            openssl_libname = os.environ.get(
+                'OPENSSL_LIBNAME') or 'libeay32.lib'
             ext.extra_link_args.append(openssl_libname)
             ext.extra_link_args.append('/LIBPATH:' + openssl_lib_path)
 
